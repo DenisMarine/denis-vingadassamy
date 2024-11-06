@@ -34,7 +34,7 @@ CREATE TABLE comment (
                          rating INT NOT NULL DEFAULT 5,
                          creation_date TIMESTAMP WITH TIME ZONE NOT NULL,
                          update_date TIMESTAMP WITH TIME ZONE NOT NULL,
-                         FOREIGN KEY (profile_commented) REFERENCES profile(profile_id),
+                         FOREIGN KEY (commented_profile) REFERENCES profile(profile_id),
                          FOREIGN KEY (written_by) REFERENCES profile(profile_id)
 );
 
