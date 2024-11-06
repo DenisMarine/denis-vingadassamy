@@ -32,11 +32,11 @@ public class UserService {
     }
 
     public UserDto update(Long id, UserDto userDto) {
+        User updatedUser = userMapper.toEntity(userDto);
         User existingUser = userRepository.findById(id).orElse(null);
-        User userUpdated = userMapper.toEntity(userDto);
         if(existingUser != null){
-            userDto.setId(existingUser.getId());
-            return userMapper.toDto(userRepository.save(userUpdated));
+            updatedUser.setId(existingUser.getId());
+            return userMapper.toDto(userRepository.save(updatedUser));
         }
         return null;
     }
