@@ -55,13 +55,14 @@ CREATE TABLE party (
 );
 
 CREATE TABLE participant (
-                             user_id INT NOT NULL,
+                             participant_id INT NOT NULL PRIMARY KEY,
+                             profile_id INT NOT NULL,
                              party_id INT NOT NULL,
                              accepted BOOLEAN DEFAULT FALSE,
                              has_paid BOOLEAN DEFAULT FALSE,
                              creation_date TIMESTAMP WITH TIME ZONE NOT NULL,
-                             PRIMARY KEY (user_id, party_id),
-                             FOREIGN KEY (user_id) REFERENCES profile(profile_id),
+                             CONSTRAINT unique_participant_in_party UNIQUE (profile_id, party_id),
+                             FOREIGN KEY (profile_id) REFERENCES profile(profile_id),
                              FOREIGN KEY (party_id) REFERENCES party(party_id)
 );
 
@@ -71,9 +72,9 @@ CREATE TABLE item (
                       name VARCHAR(100) NOT NULL,
                       type VARCHAR(100) NOT NULL,
                       brought_by INT NOT NULL,
-                      number int NOT NULL DEFAULT 1,
+                      quantity int NOT NULL DEFAULT 1,
                       FOREIGN KEY (party_id) REFERENCES party(party_id),
-                      FOREIGN KEY (brought_by) REFERENCES profile(profile_id)
+                      FOREIGN KEY (brought_by) REFERENCES participant(participant_id)
 );
 
 CREATE TABLE bring_item (
