@@ -2,7 +2,6 @@ package com.party.Party.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -38,13 +37,11 @@ public class SecurityConfig {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
                         /*authorize.anyRequest().permitAll()*/
-                        authorize.requestMatchers(HttpMethod.GET, "/**").permitAll()
-                                .requestMatchers("/**").permitAll()
+                        authorize
+                                .requestMatchers("/signin").permitAll()
                                 .anyRequest().authenticated()
 
                 );
-
-
         return http.build();
     }
 }
