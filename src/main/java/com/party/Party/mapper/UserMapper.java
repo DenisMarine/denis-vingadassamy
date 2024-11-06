@@ -3,10 +3,11 @@ package com.party.Party.mapper;
 import com.party.Party.dto.UserDto;
 import com.party.Party.entity.User;
 import org.mapstruct.Mapper;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = { UserMapper.class })
+@Mapper(componentModel = "spring")
 public interface UserMapper {
     UserDto toDto(User user);
     User toEntity(UserDto userDto);
