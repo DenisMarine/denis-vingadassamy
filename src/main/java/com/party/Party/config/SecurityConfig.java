@@ -2,6 +2,7 @@ package com.party.Party.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -36,10 +37,11 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
-                        /*authorize.anyRequest().permitAll()*/
-                        authorize
+                        authorize.anyRequest().permitAll()
+                        /*authorize
+                                .requestMatchers(HttpMethod.GET,"/signin").permitAll()
                                 .requestMatchers("/signin").permitAll()
-                                .anyRequest().authenticated()
+                                .anyRequest().authenticated()*/
 
                 );
         return http.build();
