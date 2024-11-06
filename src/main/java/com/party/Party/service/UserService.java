@@ -6,6 +6,7 @@ import com.party.Party.mapper.UserMapper;
 import com.party.Party.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +16,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserService {
+    @Autowired
     private UserRepository userRepository;
+    @Autowired
     private UserMapper userMapper;
 
     public List<UserDto> findAll(Pageable pageable){
