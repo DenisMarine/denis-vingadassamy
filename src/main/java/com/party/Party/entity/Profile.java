@@ -1,7 +1,5 @@
 package com.party.Party.entity;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.party.Party.utils.JsonNodeConverter;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

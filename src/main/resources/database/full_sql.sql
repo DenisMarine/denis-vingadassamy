@@ -33,7 +33,7 @@ CREATE TABLE profile (
     address_id INT UNIQUE NOT NULL,
     username VARCHAR(30) UNIQUE NOT NULL,
     age INT NOT NULL DEFAULT 18,
-    interests JSON,
+    interests JSONB,
     delete_date TIMESTAMP WITH TIME ZONE,
     creation_date TIMESTAMP WITH TIME ZONE NOT NULL,
     update_date TIMESTAMP WITH TIME ZONE NOT NULL,

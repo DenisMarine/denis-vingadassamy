@@ -5,8 +5,6 @@ import com.party.Party.entity.User;
 import com.party.Party.mapper.UserMapper;
 import com.party.Party.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 

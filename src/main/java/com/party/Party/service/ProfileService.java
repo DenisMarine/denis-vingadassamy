@@ -41,7 +41,6 @@ public class ProfileService {
         OffsetDateTime now = OffsetDateTime.now();
         profile.setCreationDate(now);
         profile.setUpdateDate(now);
-       // Integer profileId = profileRepository.saveProfile(profile);
         return profileMapper.toDto(profileRepository.saveProfile(profile));
     }
 
