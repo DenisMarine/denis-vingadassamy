@@ -19,5 +19,5 @@ public class Address {
     private String region;
     private String country;
     @Column(name = "address")
-    private String complete_address;
+    private String completeAddress;
 }

@@ -22,17 +22,16 @@ public class Profile {
     private Long id;
     private String username;
     private int age;
-    @Convert(converter = JsonNodeConverter.class)
-    private JsonNode interests;
+    private String interests;
     private OffsetDateTime deleteDate;
     private OffsetDateTime creationDate;
     private OffsetDateTime updateDate;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 

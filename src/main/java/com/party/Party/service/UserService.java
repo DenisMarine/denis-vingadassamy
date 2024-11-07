@@ -14,11 +14,9 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-@NoArgsConstructor
 public class UserService {
-    @Autowired
+
     private UserRepository userRepository;
-    @Autowired
     private UserMapper userMapper;
 
     public List<UserDto> findAll(Pageable pageable){

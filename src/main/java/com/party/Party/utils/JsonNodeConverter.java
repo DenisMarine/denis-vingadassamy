@@ -7,7 +7,7 @@ import jakarta.persistence.Converter;
 
 import java.io.IOException;
 
-@Converter
+@Converter(autoApply = true)
 public class JsonNodeConverter implements AttributeConverter<JsonNode, String> {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
