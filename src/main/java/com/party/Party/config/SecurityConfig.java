@@ -37,13 +37,19 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
-                        authorize.anyRequest().permitAll()
-                        /*authorize
-                                .requestMatchers(HttpMethod.GET,"/signin").permitAll()
-                                .requestMatchers("/signin").permitAll()
-                                .anyRequest().authenticated()*/
+                        /*authorize.anyRequest().permitAll()*/
+                        authorize
+                                .requestMatchers("/auth/signin").permitAll()
+                                .requestMatchers("/swagger-ui/**").permitAll()
+                                .anyRequest().authenticated()
 
-                );
+                )
+                .formLogin()
+                .defaultSuccessUrl("/", true)
+                .permitAll()
+                .and()
+                .logout()
+                .permitAll();
         return http.build();
     }
 }
