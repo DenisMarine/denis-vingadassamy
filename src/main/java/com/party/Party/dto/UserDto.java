@@ -2,8 +2,6 @@ package com.party.Party.dto;
 
 import lombok.*;
 
-@Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Data

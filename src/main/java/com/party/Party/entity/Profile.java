@@ -37,8 +37,8 @@ public class Profile {
     private User user;
 
     @OneToMany(mappedBy = "commentedProfile")
-    private List<Profile> comments;
+    private List<Comment> comments;
 
     @OneToMany(mappedBy = "writtenBy")
-    private List<Profile> commentsWrite;
+    private List<Comment> commentsWrite;
 }
