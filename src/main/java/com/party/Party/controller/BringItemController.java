@@ -18,7 +18,6 @@ import java.util.List;
 public class BringItemController {
 
     private final BringItemService bringItemService;
-    private final ProfileService profileService;
 
     @GetMapping("/")
     public ResponseEntity<List<BringItemDto>> findAll(@RequestParam(defaultValue = "0") int page,

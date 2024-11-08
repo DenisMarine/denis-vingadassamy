@@ -66,7 +66,7 @@ CREATE TABLE party (
                        party_type VARCHAR(50) NOT NULL,
                        nb_places INT NOT NULL DEFAULT 1,
                        paid VARCHAR(50) NOT NULL,
-                       price FLOAT NOT NULL,
+                       price FLOAT,
                        creation_date TIMESTAMP WITH TIME ZONE NOT NULL,
                        update_date TIMESTAMP WITH TIME ZONE NOT NULL,
                        delete_date TIMESTAMP WITH TIME ZONE,
@@ -109,7 +109,6 @@ CREATE TABLE bring_item (
     CONSTRAINT unique_bring_item_type_party UNIQUE (party_id, type)
 );
 
--- Création des vues matérialisées
 CREATE MATERIALIZED VIEW party_participants_count AS
     SELECT p.party_id, p.name AS party_name, COUNT(pt.profile_id) AS participant_count
     FROM party p

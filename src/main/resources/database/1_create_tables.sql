@@ -52,7 +52,7 @@ CREATE TABLE party (
                        party_type VARCHAR(50) NOT NULL,
                        nb_places INT NOT NULL DEFAULT 1,
                        paid VARCHAR(50) NOT NULL,
-                       price FLOAT NOT NULL,
+                       price FLOAT,
                        creation_date TIMESTAMP WITH TIME ZONE NOT NULL,
                        update_date TIMESTAMP WITH TIME ZONE NOT NULL,
                        delete_date TIMESTAMP WITH TIME ZONE,

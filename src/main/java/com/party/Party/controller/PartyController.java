@@ -1,5 +1,6 @@
 package com.party.Party.controller;
 
+import com.party.Party.dto.PartyCreateDto;
 import com.party.Party.dto.PartyDto;
 import com.party.Party.service.PartyService;
 import jakarta.transaction.Transactional;
@@ -33,8 +34,8 @@ public class PartyController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<PartyDto> save(@RequestBody PartyDto partyDto) {
-        PartyDto createdParty = partyService.save(partyDto);
+    public ResponseEntity<PartyDto> save(@RequestBody PartyCreateDto partyCreateDto) {
+        PartyDto createdParty = partyService.save(partyCreateDto);
         return ResponseEntity.ok(createdParty);
     }
 
