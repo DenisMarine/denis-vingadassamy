@@ -1,8 +1,8 @@
 package com.party.Party.controller;
 
-import com.party.Party.dto.CommentDto;
 import com.party.Party.dto.ProfileDto;
 import com.party.Party.dto.ProfileUpdateDto;
+import com.party.Party.dto.UserRatingViewDto;
 import com.party.Party.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,5 +38,10 @@ public class ProfileController {
     public ResponseEntity<Void> deleteProfile(@PathVariable Long profileId) {
         profileService.deleteProfile(profileId);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{profileId}/rating")
+    public ResponseEntity<UserRatingViewDto> getUserRating(@PathVariable Long profileId) {
+        return ResponseEntity.ok(profileService.getUserRating(profileId));
     }
 }
