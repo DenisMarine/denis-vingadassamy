@@ -13,6 +13,5 @@ public class ItemDto {
     private String name;
     private ItemType type;
     private int quantity;
-    private PartyDto party;
     private ParticipantDto broughtBy;
 }

@@ -3,10 +3,11 @@ package com.party.Party.mapper;
 import com.party.Party.dto.BringItemDto;
 import com.party.Party.entity.BringItem;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {ParticipantMapper.class, PartyMapper.class})
 public interface BringItemMapper {
     BringItemDto toDto(BringItem bringItem);
     BringItem toEntity(BringItemDto bringItemDto);

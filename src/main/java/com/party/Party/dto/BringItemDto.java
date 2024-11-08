@@ -11,5 +11,4 @@ import lombok.NoArgsConstructor;
 public class BringItemDto {
     private Long id;
     private ItemType type;
-    private PartyDto party;
 }
