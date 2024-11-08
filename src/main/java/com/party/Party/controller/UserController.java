@@ -1,7 +1,5 @@
 package com.party.Party.controller;
 
-import com.party.Party.dto.ProfileCreateDto;
-import com.party.Party.dto.ProfileDto;
 import com.party.Party.dto.UserCreateDto;
 import com.party.Party.dto.UserDto;
 import com.party.Party.service.ProfileService;
