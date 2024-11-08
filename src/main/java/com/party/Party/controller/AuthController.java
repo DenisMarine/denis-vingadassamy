@@ -17,11 +17,6 @@ public class AuthController {
 
     private AuthenticationManager authenticationManager;
 
-    @GetMapping("/signin")
-    public String test(){
-        return "COUCOU";
-    }
-
     @PostMapping("/signin")
     public ResponseEntity<String> authenticateUser(@RequestBody UserDto loginDto){
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
