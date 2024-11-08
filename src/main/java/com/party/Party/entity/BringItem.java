@@ -16,6 +16,7 @@ public class BringItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "bring_id")
     private Long id;
+    @Enumerated(EnumType.STRING)
     private ItemType type;
 
     @ManyToOne(fetch = FetchType.LAZY)
