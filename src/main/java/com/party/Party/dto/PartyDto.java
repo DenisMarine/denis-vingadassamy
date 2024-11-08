@@ -21,6 +21,7 @@ public class PartyDto {
     private float price;
     private OffsetDateTime creationDate;
     private OffsetDateTime deleteDate;
+    private OffsetDateTime updateDate;
     private AddressDto address;
     private ProfileDto createdBy;
     private Set<ParticipantDto> participants;

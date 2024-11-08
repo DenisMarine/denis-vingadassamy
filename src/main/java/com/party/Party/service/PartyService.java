@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 @Service
@@ -27,6 +28,7 @@ public class PartyService {
 
     public PartyDto save(PartyDto partyDto) {
         Party party = partyMapper.toEntity(partyDto);
+        party.setUpdateDate(OffsetDateTime.now());
         return partyMapper.toDto(partyRepository.save(party));
     }
 
