@@ -3,6 +3,7 @@ package com.party.Party.controller;
 import com.party.Party.dto.BringItemDto;
 import com.party.Party.service.BringItemService;
 import com.party.Party.service.ProfileService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -33,12 +34,14 @@ public class BringItemController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<BringItemDto> save(@RequestBody BringItemDto bringItemDto) {
         BringItemDto createdBringItem = bringItemService.save(bringItemDto);
         return ResponseEntity.ok(createdBringItem);
     }
 
     @PutMapping("/{id}")
+    @Transactional
     public ResponseEntity<BringItemDto> update(@PathVariable Long id, @RequestBody BringItemDto bringItemDto) {
         BringItemDto updatedBringItem = bringItemService.update(id, bringItemDto);
         return updatedBringItem != null ? ResponseEntity.ok(updatedBringItem) : ResponseEntity.notFound().build();

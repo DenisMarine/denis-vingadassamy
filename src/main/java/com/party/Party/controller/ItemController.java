@@ -2,6 +2,7 @@ package com.party.Party.controller;
 
 import com.party.Party.dto.ItemDto;
 import com.party.Party.service.ItemService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,12 +32,14 @@ public class ItemController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<ItemDto> save(@RequestBody ItemDto itemDto) {
         ItemDto createdItem = itemService.save(itemDto);
         return ResponseEntity.ok(createdItem);
     }
 
     @PutMapping("/{id}")
+    @Transactional
     public ResponseEntity<ItemDto> update(@PathVariable Long id, @RequestBody ItemDto itemDto) {
         ItemDto updatedItem = itemService.update(id, itemDto);
         return updatedItem != null ? ResponseEntity.ok(updatedItem) : ResponseEntity.notFound().build();

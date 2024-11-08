@@ -11,6 +11,7 @@ import java.time.OffsetDateTime;
 public class ParticipantDto {
     private Long id;
     private ProfileDto profile;
+    private Long partyId;
     private boolean accepted;
     private boolean hasPaid;
     private OffsetDateTime participationDate;

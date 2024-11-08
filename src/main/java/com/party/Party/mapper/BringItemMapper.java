@@ -9,8 +9,12 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {ParticipantMapper.class, PartyMapper.class})
 public interface BringItemMapper {
+    @Mapping(source = "party.id", target = "partyId")
     BringItemDto toDto(BringItem bringItem);
+
+    @Mapping(source = "partyId", target = "party.id")
     BringItem toEntity(BringItemDto bringItemDto);
+
     List<BringItemDto> toDtos(List<BringItem> bringItems);
     List<BringItem> toEntities(List<BringItemDto> bringItemDtos);
 }

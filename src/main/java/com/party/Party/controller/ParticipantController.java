@@ -2,6 +2,7 @@ package com.party.Party.controller;
 
 import com.party.Party.dto.ParticipantDto;
 import com.party.Party.service.ParticipantService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,12 +32,14 @@ public class ParticipantController {
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<ParticipantDto> save(@RequestBody ParticipantDto participantDto) {
         ParticipantDto createdParticipant = participantService.save(participantDto);
         return ResponseEntity.ok(createdParticipant);
     }
 
     @PutMapping("/{id}")
+    @Transactional
     public ResponseEntity<ParticipantDto> update(@PathVariable Long id, @RequestBody ParticipantDto participantDto) {
         ParticipantDto updatedParticipant = participantService.update(id, participantDto);
         return updatedParticipant != null ? ResponseEntity.ok(updatedParticipant) : ResponseEntity.notFound().build();

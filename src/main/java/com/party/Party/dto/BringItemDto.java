@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BringItemDto {
     private Long id;
+    private Long partyId;
     private ItemType type;
 }
