@@ -6,6 +6,10 @@ Party est une application de gestion d'événements sociaux, principalement axé
 
 ## Base de données
 
+Schéma MCD
+
+![party.drawio.png](party.drawio.png)
+
 L'application utilise une base de données Postgresql.
 Afin de créer celle-ci, vous devez utiliser les scripts présents dans le dossier ``src/main/resources/database``
 
