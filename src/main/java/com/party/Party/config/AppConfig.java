@@ -18,7 +18,6 @@ public class AppConfig {
                 user.setPassword(passwordEncoder.encode("admin"));
                 user.setEmail("admin@admin.com");
                 userRepository.save(user);
-                System.out.println("Default user created");
             }
         };
     }

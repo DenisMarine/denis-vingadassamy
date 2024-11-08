@@ -4,7 +4,6 @@ import com.party.Party.entity.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -16,8 +15,6 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
     @Query("SELECT p FROM Profile p " +
             "LEFT JOIN FETCH p.user " +
             "LEFT JOIN FETCH p.address " +
-            "LEFT JOIN FETCH p.comments " +
-            "LEFT JOIN FETCH p.commentsWrite " +
             "WHERE p.id = :profileId AND p.deleteDate IS NULL")
     Optional<Profile> findProfileById(Long profileId);
 
