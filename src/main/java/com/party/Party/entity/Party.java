@@ -26,6 +26,7 @@ public class Party {
     private float price;
     private OffsetDateTime creationDate;
     private OffsetDateTime deleteDate;
+    private OffsetDateTime updateDate;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", nullable = false)
