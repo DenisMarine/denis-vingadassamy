@@ -37,11 +37,11 @@ public class SecurityConfig {
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) ->
-                        /*authorize.anyRequest().permitAll()*/
-                        authorize
+                        authorize.anyRequest().permitAll()
+                       /* authorize
                                 .requestMatchers("/auth/signin").permitAll()
                                 .requestMatchers("/swagger-ui/**").permitAll()
-                                .anyRequest().authenticated()
+                                .anyRequest().authenticated()*/
 
                 )
                 .formLogin()

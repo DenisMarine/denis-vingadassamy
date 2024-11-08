@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -36,11 +36,11 @@ public class Party {
     private Profile createdBy;
 
     @OneToMany(mappedBy = "party")
-    private List<Participant> participants;
+    private Set<Participant> participants;
 
     @OneToMany(mappedBy = "party")
-    private List<Item> items;
+    private Set<Item> items;
 
     @OneToMany(mappedBy = "party")
-    private List<BringItem> bringItems;
+    private Set<BringItem> bringItems;
 }

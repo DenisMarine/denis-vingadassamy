@@ -4,17 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.OffsetDateTime;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentDto {
+public class CommentCreationDto {
 
     private Long id;
     private String text;
     private int rating;
-    private OffsetDateTime creationDate;
-    private ProfileDto commentedProfile;
-    private ProfileDto writtenBy;
+    private Long authorId;
+    private Long commentedProfileId;
 }

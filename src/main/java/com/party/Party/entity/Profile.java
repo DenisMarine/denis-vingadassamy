@@ -4,9 +4,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -33,9 +35,11 @@ public class Profile {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "commentedProfile")
-    private List<Comment> comments;
+    @OneToMany(mappedBy = "commentedProfile", cascade = CascadeType.ALL)
+    @BatchSize(size = 50)
+    private Set<Comment> comments;
 
-    @OneToMany(mappedBy = "writtenBy")
-    private List<Comment> commentsWrite;
+    @OneToMany(mappedBy = "writtenBy", cascade = CascadeType.ALL)
+    @BatchSize(size = 50)
+    private Set<Comment> commentsWrite;
 }

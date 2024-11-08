@@ -1,19 +1,20 @@
 package com.party.Party.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.party.Party.dto.ProfileCreateDto;
-import com.party.Party.dto.ProfileDto;
-import com.party.Party.dto.UserDto;
+import com.party.Party.dto.*;
 import com.party.Party.entity.Profile;
 import com.party.Party.mapper.AddressMapper;
+import com.party.Party.mapper.CommentMapper;
 import com.party.Party.mapper.ProfileMapper;
 import com.party.Party.mapper.UserMapper;
 import com.party.Party.repository.ProfileRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -45,10 +46,30 @@ public class ProfileService {
     }
 
     public ProfileDto getById(Long profileId) {
-        Profile profile = profileRepository.findById(profileId).orElse(null);
-        if (Objects.isNull(profile)) {
-            throw new NotFoundException("Profile with id " + profileId + " not found");
-        }
+        Profile profile = getProfile(profileId);
         return profileMapper.toDto(profile);
+    }
+
+    public List<ProfileDto> getAllProfiles(int page, int pageSize) {
+        return profileRepository.findAllProfilesWithAddress(PageRequest.of(page, pageSize)).getContent()
+                .stream().map(profile -> profileMapper.toDto(profile)).toList();
+    }
+
+    public ProfileDto updateProfile(Long profileId, ProfileUpdateDto profileUpdateDto) {
+        getProfile(profileId);
+
+        return profileMapper.toDto(profileRepository.updateProfile(profileUpdateDto.getAge(),
+                objectMapper.valueToTree(profileUpdateDto.getInterests()).toString(), profileUpdateDto.getUsername(), profileId));
+    }
+
+    public void deleteProfile(Long profileId) {
+        getProfile(profileId);
+
+        profileRepository.deleteProfileById(OffsetDateTime.now(), profileId);
+    }
+
+    private Profile getProfile(Long profileId) {
+        return profileRepository.findProfileById(profileId)
+                .orElseThrow(() -> new NotFoundException("Profile with id " + profileId + " not found"));
     }
 }

@@ -14,15 +14,11 @@ import java.util.List;
 public interface ProfileMapper {
     @Mapping(target = "addressDto", source = "address")
     @Mapping(target = "userDto", source = "user")
-    @Mapping(target = "commentDtos", source = "comments")
-    @Mapping(target = "commentsWriteDto", source = "commentsWrite")
     @Mapping(target = "interests", expression = "java(mapJsonNodeToList(profile.getInterests()))")
     ProfileDto toDto(Profile profile);
 
     @Mapping(target = "address", source = "addressDto")
     @Mapping(target = "user", source = "userDto")
-    @Mapping(target = "comments", source = "commentDtos")
-    @Mapping(target = "commentsWrite", source = "commentsWriteDto")
     @Mapping(target = "interests", expression = "java(mapListToJsonNode(profileDto.getInterests()))")
     Profile toEntity(ProfileDto profileDto);
 
