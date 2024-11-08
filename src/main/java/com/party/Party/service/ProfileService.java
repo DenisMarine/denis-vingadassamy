@@ -3,13 +3,13 @@ package com.party.Party.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.party.Party.dto.*;
 import com.party.Party.entity.Profile;
-import com.party.Party.mapper.AddressMapper;
-import com.party.Party.mapper.CommentMapper;
-import com.party.Party.mapper.ProfileMapper;
-import com.party.Party.mapper.UserMapper;
+import com.party.Party.entity.UserRatingView;
+import com.party.Party.mapper.*;
 import com.party.Party.repository.ProfileRepository;
+import com.party.Party.repository.UserRatingViewRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
@@ -23,10 +23,13 @@ public class ProfileService {
 
     private final ProfileRepository profileRepository;
     private final AddressService addressService;
+    private final JdbcTemplate jdbcTemplate;
     private ProfileMapper profileMapper;
     private AddressMapper addressMapper;
     private UserMapper userMapper;
     private ObjectMapper objectMapper;
+    private UserRatingViewMapper userRatingViewMapper;
+    private final UserRatingViewRepository userRatingViewRepository;
 
     public ProfileDto createProfile(ProfileCreateDto profileCreateDto, UserDto userDto) {
         if (Objects.isNull(profileCreateDto.getAddressDto().getId())) {
@@ -42,7 +45,9 @@ public class ProfileService {
         OffsetDateTime now = OffsetDateTime.now();
         profile.setCreationDate(now);
         profile.setUpdateDate(now);
-        return profileMapper.toDto(profileRepository.saveProfile(profile));
+        ProfileDto profileDto = profileMapper.toDto(profileRepository.saveProfile(profile));
+        refreshMaterializedView();
+        return profileDto;
     }
 
     public ProfileDto getById(Long profileId) {
@@ -58,18 +63,31 @@ public class ProfileService {
     public ProfileDto updateProfile(Long profileId, ProfileUpdateDto profileUpdateDto) {
         getProfile(profileId);
 
-        return profileMapper.toDto(profileRepository.updateProfile(profileUpdateDto.getAge(),
+        ProfileDto profileDto = profileMapper.toDto(profileRepository.updateProfile(profileUpdateDto.getAge(),
                 objectMapper.valueToTree(profileUpdateDto.getInterests()).toString(), profileUpdateDto.getUsername(), profileId));
+        refreshMaterializedView();
+        return profileDto;
     }
 
     public void deleteProfile(Long profileId) {
         getProfile(profileId);
 
         profileRepository.deleteProfileById(OffsetDateTime.now(), profileId);
+        refreshMaterializedView();
+    }
+
+    public UserRatingViewDto getUserRating(Long profileId) {
+        Profile profile = getProfile(profileId);
+        return userRatingViewMapper.toDto(userRatingViewRepository.findByProfileId(profileId)
+                .orElse(new UserRatingView(profileId, profile.getUsername(), 0)));
     }
 
     private Profile getProfile(Long profileId) {
         return profileRepository.findProfileById(profileId)
                 .orElseThrow(() -> new NotFoundException("Profile with id " + profileId + " not found"));
+    }
+
+    public void refreshMaterializedView() {
+        jdbcTemplate.execute("REFRESH MATERIALIZED VIEW user_average_rating");
     }
 }

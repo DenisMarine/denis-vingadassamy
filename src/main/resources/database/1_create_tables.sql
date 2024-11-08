@@ -18,13 +18,19 @@ CREATE TABLE profile (
                          address_id INT UNIQUE NOT NULL,
                          username VARCHAR(30) UNIQUE NOT NULL,
                          age INT NOT NULL DEFAULT 18,
-                         interests JSON,
+                         interests JSONB,
                          delete_date TIMESTAMP WITH TIME ZONE,
                          creation_date TIMESTAMP WITH TIME ZONE NOT NULL,
                          update_date TIMESTAMP WITH TIME ZONE NOT NULL,
                          FOREIGN KEY (user_id) REFERENCES users(user_id),
                          FOREIGN KEY (address_id) REFERENCES address(address_id)
-);
+) PARTITION BY RANGE (age);
+
+CREATE TABLE profile_age_0_18 PARTITION OF profile FOR VALUES FROM (0) TO (18);
+CREATE TABLE profile_age_18_25 PARTITION OF profile FOR VALUES FROM (18) TO (26);
+CREATE TABLE profile_age_26_35 PARTITION OF profile FOR VALUES FROM (26) TO (36);
+CREATE TABLE profile_age_36_50 PARTITION OF profile FOR VALUES FROM (36) TO (51);
+CREATE TABLE profile_age_50_plus PARTITION OF profile FOR VALUES FROM (51) TO (150);
 
 CREATE TABLE comment (
                          comment_id INT NOT NULL PRIMARY KEY,
@@ -52,7 +58,11 @@ CREATE TABLE party (
                        delete_date TIMESTAMP WITH TIME ZONE,
                        FOREIGN KEY (created_by) REFERENCES profile(profile_id),
                        FOREIGN KEY (address_id) REFERENCES address(address_id)
-);
+) PARTITION BY RANGE (creation_date);
+
+CREATE TABLE party_before PARTITION OF party FOR VALUES FROM ('1900-01-01') TO ('2023-12-31');
+CREATE TABLE party_2024 PARTITION OF party FOR VALUES FROM ('2024-01-01') TO ('2024-12-31');
+CREATE TABLE party_future PARTITION OF party FOR VALUES FROM ('2025-01-01') TO ('9999-12-31');
 
 CREATE TABLE participant (
                              participant_id INT NOT NULL PRIMARY KEY,

@@ -11,6 +11,7 @@ import com.party.Party.mapper.ProfileMapper;
 import com.party.Party.repository.CommentRepository;
 import com.party.Party.repository.ProfileRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
@@ -26,6 +27,7 @@ public class CommentService {
     private final ProfileRepository profileRepository;
     private final CommentMapper commentMapper;
     private final ProfileMapper profileMapper;
+    private final JdbcTemplate jdbcTemplate;
 
     public CommentDto addComment(CommentCreationDto commentCreationDto) {
         ProfileDto writtenByDto = profileMapper.toDto(getProfile(commentCreationDto.getAuthorId()));
@@ -43,7 +45,9 @@ public class CommentService {
         Comment comment = commentMapper.toEntity(commentDto);
         comment.setUpdateDate(now);
 
-        return commentMapper.toDto(commentRepository.save(comment));
+        CommentDto commentDtoSaved = commentMapper.toDto(commentRepository.save(comment));
+        refreshMaterializedView();
+        return commentDtoSaved;
     }
 
     public List<CommentDto> getAllCommentsOfProfile(Long profileId) {
@@ -67,12 +71,15 @@ public class CommentService {
             comment.setRating(commentUpdateDto.getRating());
         }
         comment.setUpdateDate(OffsetDateTime.now());
-        return commentMapper.toDto(commentRepository.save(comment));
+        CommentDto commentDto = commentMapper.toDto(commentRepository.save(comment));
+        refreshMaterializedView();
+        return commentDto;
     }
 
     public void deleteComment(Long commentId) {
         getComment(commentId);
         commentRepository.deleteById(commentId);
+        refreshMaterializedView();
     }
 
     private Profile getProfile(Long profileId) {
@@ -83,5 +90,9 @@ public class CommentService {
     private Comment getComment(Long commentId) {
         return commentRepository.findCommentById(commentId)
                 .orElseThrow(() -> new NotFoundException("Comment with id " + commentId + " not found"));
+    }
+
+    public void refreshMaterializedView() {
+        jdbcTemplate.execute("REFRESH MATERIALIZED VIEW user_average_rating");
     }
 }

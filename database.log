@@ -1,8 +1,0 @@
-1731073866690|2|statement|select count(*) from users u1_0
-1731073866693|0|commit|
-1731074225130|2|statement|select count(*) from users u1_0
-1731074225133|0|commit|
-1731074235290|1|statement|select p1_0.profile_id,a1_0.address_id,a1_0.city,a1_0.address,a1_0.country,a1_0.region,p1_0.age,p1_0.creation_date,p1_0.delete_date,p1_0.interests,p1_0.update_date,u1_0.user_id,u1_0.email,u1_0.password,p1_0.username from profile p1_0 left join users u1_0 on u1_0.user_id=p1_0.user_id left join address a1_0 on a1_0.address_id=p1_0.address_id where p1_0.profile_id=18 and p1_0.delete_date is null
-1731074235308|0|statement|select p1_0.profile_id,a1_0.address_id,a1_0.city,a1_0.address,a1_0.country,a1_0.region,p1_0.age,p1_0.creation_date,p1_0.delete_date,p1_0.interests,p1_0.update_date,u1_0.user_id,u1_0.email,u1_0.password,p1_0.username from profile p1_0 left join users u1_0 on u1_0.user_id=p1_0.user_id left join address a1_0 on a1_0.address_id=p1_0.address_id where p1_0.profile_id=20 and p1_0.delete_date is null
-1731074235330|1|statement|insert into comment (commented_profile,creation_date,rating,text,update_date,written_by) values (20,'2024-11-08T14:57:15.312+0100',1,'comment','2024-11-08T14:57:15.312+0100',18) returning comment_id
-1731074235344|8|commit|

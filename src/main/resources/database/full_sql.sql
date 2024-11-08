@@ -39,7 +39,12 @@ CREATE TABLE profile (
     update_date TIMESTAMP WITH TIME ZONE NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (address_id) REFERENCES address(address_id)
-);
+) PARTITION BY RANGE (age);
+
+CREATE TABLE profile_age_18_25 PARTITION OF profile FOR VALUES FROM (18) TO (26);
+CREATE TABLE profile_age_26_35 PARTITION OF profile FOR VALUES FROM (26) TO (36);
+CREATE TABLE profile_age_36_50 PARTITION OF profile FOR VALUES FROM (36) TO (51);
+CREATE TABLE profile_age_50_plus PARTITION OF profile FOR VALUES FROM (51) TO (150);
 
 CREATE TABLE comment (
     comment_id SERIAL PRIMARY KEY,
@@ -54,20 +59,24 @@ CREATE TABLE comment (
 );
 
 CREATE TABLE party (
-    party_id SERIAL PRIMARY KEY,
-    created_by INT NOT NULL,
-    name VARCHAR(50) NOT NULL,
-    address_id INT UNIQUE NOT NULL,
-    party_type VARCHAR(50) NOT NULL,
-    nb_places INT NOT NULL DEFAULT 1,
-    paid VARCHAR(50) NOT NULL,
-    price FLOAT NOT NULL,
-    creation_date TIMESTAMP WITH TIME ZONE NOT NULL,
-    update_date TIMESTAMP WITH TIME ZONE NOT NULL,
-    delete_date TIMESTAMP WITH TIME ZONE,
-    FOREIGN KEY (created_by) REFERENCES profile(profile_id),
-    FOREIGN KEY (address_id) REFERENCES address(address_id)
-);
+                       party_id INT NOT NULL PRIMARY KEY,
+                       created_by INT NOT NULL,
+                       name VARCHAR(50) NOT NULL,
+                       address_id INT UNIQUE NOT NULL,
+                       party_type VARCHAR(50) NOT NULL,
+                       nb_places INT NOT NULL DEFAULT 1,
+                       paid VARCHAR(50) NOT NULL,
+                       price FLOAT NOT NULL,
+                       creation_date TIMESTAMP WITH TIME ZONE NOT NULL,
+                       update_date TIMESTAMP WITH TIME ZONE NOT NULL,
+                       delete_date TIMESTAMP WITH TIME ZONE,
+                       FOREIGN KEY (created_by) REFERENCES profile(profile_id),
+                       FOREIGN KEY (address_id) REFERENCES address(address_id)
+) PARTITION BY RANGE (creation_date);
+
+CREATE TABLE party_before PARTITION OF party FOR VALUES FROM ('1900-01-01') TO ('2023-12-31');
+CREATE TABLE party_2024 PARTITION OF party FOR VALUES FROM ('2024-01-01') TO ('2024-12-31');
+CREATE TABLE party_future PARTITION OF party FOR VALUES FROM ('2025-01-01') TO ('9999-12-31');
 
 CREATE TABLE participant (
     participant_id SERIAL PRIMARY KEY,
@@ -108,10 +117,10 @@ CREATE MATERIALIZED VIEW party_participants_count AS
     GROUP BY p.party_id, p.name;
 
 CREATE MATERIALIZED VIEW user_average_rating AS
-    SELECT p.user_id, p.username, AVG(c.rating) AS average_rating
+    SELECT p.*, CAST(ROUND(AVG(c.rating), 2) AS FLOAT) AS average_rating
     FROM profile p
-    JOIN comment c ON p.profile_id = c.commented_profile
-    GROUP BY p.user_id, p.username;
+         JOIN comment c ON p.profile_id = c.commented_profile
+    GROUP BY p.profile_id;
 
 -- Création des index
 CREATE INDEX user_email_idx ON users(email);
